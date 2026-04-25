@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark-950: #000000;
+  --color-dark-900: #050505;
+  --color-dark-800: #111111;
+  --color-dark-700: #222222;
+  --color-primary-600: #00ffff;
+  --color-primary-500: #00cccc;
+  --color-primary-400: #009999;
+  --color-primary-300: #006666;
+  
+  --font-sans: "Syne", system-ui, sans-serif;
+  --font-mono: "Fira Code", "JetBrains Mono", monospace;
+
+  --animate-fade-in: fade-in 0.8s ease-out forwards;
+  --animate-pulse-glow: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px 0px rgba(0, 255, 255, 0.1); }
+    50% { box-shadow: 0 0 30px 5px rgba(0, 255, 255, 0.4); }
+  }
+
+  /* Reset cursor to none for custom cursor implementation */
+  body {
+    background-color: var(--color-dark-950);
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    cursor: none; 
+  }
+
+  /* Ensure interactive elements don't show the default pointer if we want cursor:none globally */
+  a, button, input, select, textarea, [role="button"] {
+    cursor: none;
+  }
+}
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-dark-700);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-500);
+  }
+  
+  .glass-card {
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .glass-card:hover {
+    border-color: rgba(0, 255, 255, 0.3);
+    background: rgba(20, 20, 20, 0.6);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  .text-glow-primary {
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  }
+}

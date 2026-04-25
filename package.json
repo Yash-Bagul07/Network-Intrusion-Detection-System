@@ -1,0 +1,7 @@
+{
+  "name": "college-project",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File .\\run.ps1"
+  }
+}
