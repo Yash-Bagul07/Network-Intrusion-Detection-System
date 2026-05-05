@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { getApiBase } from '../config/apiConfig';
 
 const AuthContext = createContext();
 
@@ -20,7 +21,7 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/auth/login', {
+      const response = await axios.post(`${getApiBase().replace(/\/+$/, '')}/auth/login`, {
         username,
         password
       });
@@ -45,7 +46,7 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/auth/register', {
+      const response = await axios.post(`${getApiBase().replace(/\/+$/, '')}/auth/register`, {
         username,
         email,
         password

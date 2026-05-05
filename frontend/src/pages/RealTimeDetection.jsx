@@ -3,10 +3,11 @@ import { Activity, ShieldAlert, Monitor, Server, Database } from 'lucide-react';
 import useWebSocketPackage from 'react-use-websocket';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { getApiBase, getWsLiveUrl } from '../config/apiConfig';
 const useWebSocket = useWebSocketPackage.default || useWebSocketPackage;
 
-const WS_URL = 'ws://localhost:8000/ws/live';
-const API_BASE = 'http://localhost:8000/api';
+const WS_URL = getWsLiveUrl();
+const API_BASE = getApiBase().replace(/\/+$/, '');
 
 export default function RealTimeDetection() {
   const DEFAULT_VISIBLE_ALERTS = 8;
