@@ -112,6 +112,32 @@ It executes the underlying `run.ps1` script which will automatically spawn two s
 
 > **Note**: If you run into script execution policy errors on Windows, run the command `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted` in PowerShell as an administrator.
 
+## 🌐 Deploying on Render
+
+This project now includes a Render Blueprint file: `render.yaml`.
+
+- Backend service (`nids-backend`):
+  - Root: `backend`
+  - Start: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+- Frontend service (`nids-frontend`):
+  - Root: `frontend`
+  - Build: `npm ci && npm run build`
+  - Start: `npx serve -s dist -l $PORT`
+
+### Required frontend environment variables on Render
+
+Set these on the frontend service so realtime works without any local PowerShell session:
+
+- `VITE_API_BASE=https://<your-backend-service>.onrender.com/api`
+- `VITE_WS_URL=wss://<your-backend-service>.onrender.com/ws/live`
+
+You can copy the sample values from `frontend/.env.example`.
+
+### Important
+
+If these variables are missing, the frontend will try same-origin `/api` and `/ws/live`.  
+For split frontend/backend deployments, always set both env vars explicitly.
+
 ## 🔮 Future Enhancements
 - Dockerizing the full-stack setup for seamless CI/CD.
 - Adding comprehensive end-to-end integration tests.

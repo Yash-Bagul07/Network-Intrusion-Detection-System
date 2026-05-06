@@ -1,6 +1,13 @@
 import React from 'react';
 import { Target, Server, Database, Code } from 'lucide-react';
 
+const teamMembers = [
+  { name: 'Yash Meghanad Bagul', email: 'yashbagul100gmail.com' },
+  { name: 'Purvesh Pravin Pawar', email: 'pawarpurvesh@gmail.com' },
+  { name: 'Premraj Yuvaraj Masule', email: 'masulepremraj@gmail.com' },
+  { name: 'Prashant Mansing Patil', email: 'rajput09prashant@gmail.com' }
+];
+
 export default function About() {
   return (
     <div className="max-w-4xl mx-auto py-12 animate-fade-in">
@@ -40,6 +47,19 @@ export default function About() {
                 <h3 className="text-xl font-semibold text-white mb-2">React UI</h3>
                 <p className="text-gray-400 text-sm">Glassmorphic dashboard providing live visualizations with framerate-independent animations.</p>
              </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold text-white mb-6 px-2">Project Team</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {teamMembers.map((member, index) => (
+              <div key={member.email + index} className="bg-dark-800/30 p-6 rounded-2xl border border-white/5">
+                <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Member {index + 1}</p>
+                <h3 className="text-lg font-semibold text-white">{member.name}</h3>
+                <p className="text-sm text-gray-300 mt-1 break-all">{member.email}</p>
+              </div>
+            ))}
           </div>
         </section>
       </div>

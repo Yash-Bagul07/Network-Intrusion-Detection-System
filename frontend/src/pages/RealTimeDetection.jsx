@@ -31,9 +31,9 @@ export default function RealTimeDetection() {
   }, []);
 
   const { lastJsonMessage } = useWebSocket(WS_URL, {
-    shouldReconnect: () => isOnline,
+    shouldReconnect: () => true,
     reconnectInterval: 3000,
-  }, isOnline);
+  }, true);
 
   useEffect(() => {
     if (lastJsonMessage) {
@@ -52,8 +52,6 @@ export default function RealTimeDetection() {
   }, [lastJsonMessage]);
 
   useEffect(() => {
-    if (!isOnline) return;
-
     const fetchLiveData = async () => {
       try {
         const [statsRes, alertsRes] = await Promise.all([
@@ -83,7 +81,7 @@ export default function RealTimeDetection() {
     fetchLiveData();
     const intervalId = setInterval(fetchLiveData, 2000);
     return () => clearInterval(intervalId);
-  }, [isOnline]);
+  }, []);
 
   const visibleAlerts = showAllAlerts ? alerts : alerts.slice(0, DEFAULT_VISIBLE_ALERTS);
   const formatAlertTime = (timestamp) => {

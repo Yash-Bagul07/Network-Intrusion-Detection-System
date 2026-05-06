@@ -6,9 +6,27 @@
  */
 const DEFAULT_API_BASE = 'http://127.0.0.1:8000/api';
 
+function isLocalHost() {
+  if (typeof window === 'undefined') return true;
+  const host = window.location?.hostname || '';
+  return host === 'localhost' || host === '127.0.0.1';
+}
+
+function getBrowserOriginApiBase() {
+  if (typeof window === 'undefined') return null;
+  const origin = window.location?.origin;
+  return origin ? `${origin.replace(/\/+$/, '')}/api` : null;
+}
+
 export function getApiBase() {
   const fromEnv = import.meta.env.VITE_API_BASE;
-  return (fromEnv && String(fromEnv).trim()) || DEFAULT_API_BASE;
+  if (fromEnv && String(fromEnv).trim()) return String(fromEnv).trim();
+
+  // Local development defaults to local backend.
+  if (isLocalHost()) return DEFAULT_API_BASE;
+
+  // Deployed frontend without explicit env: try same-origin backend.
+  return getBrowserOriginApiBase() || DEFAULT_API_BASE;
 }
 
 export function getWsLiveUrl() {
