@@ -18,12 +18,33 @@ function getBrowserOriginApiBase() {
   return origin ? `${origin.replace(/\/+$/, '')}/api` : null;
 }
 
+function getRenderHeuristicApiBase() {
+  if (typeof window === 'undefined') return null;
+  const host = window.location?.hostname || '';
+  const protocol = window.location?.protocol || 'https:';
+
+  if (!host.endsWith('.onrender.com')) return null;
+
+  // Common setup: frontend service named "...-frontend", backend "...-backend".
+  const backendHost = host
+    .replace('-frontend.onrender.com', '-backend.onrender.com')
+    .replace('-ui.onrender.com', '-backend.onrender.com')
+    .replace('-client.onrender.com', '-backend.onrender.com');
+
+  if (backendHost === host) return null;
+  return `${protocol}//${backendHost}/api`;
+}
+
 export function getApiBase() {
   const fromEnv = import.meta.env.VITE_API_BASE;
   if (fromEnv && String(fromEnv).trim()) return String(fromEnv).trim();
 
   // Local development defaults to local backend.
   if (isLocalHost()) return DEFAULT_API_BASE;
+
+  // Render fallback when frontend/backend are separate services.
+  const renderHeuristic = getRenderHeuristicApiBase();
+  if (renderHeuristic) return renderHeuristic;
 
   // Deployed frontend without explicit env: try same-origin backend.
   return getBrowserOriginApiBase() || DEFAULT_API_BASE;
