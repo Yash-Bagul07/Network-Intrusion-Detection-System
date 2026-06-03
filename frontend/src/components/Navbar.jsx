@@ -30,7 +30,7 @@ export default function Navbar() {
             <Shield className="text-primary-400 h-5 w-5" />
           </div>
           <h1 className="text-2xl font-bold font-sans tracking-[0.2em] text-white">
-            SENTINEL<span className="text-primary-500">.AI</span>
+            SENTINEL<span className="text-primary-500">.Security</span>
           </h1>
         </div>
 
